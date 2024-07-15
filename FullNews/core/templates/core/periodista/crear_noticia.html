@@ -1,0 +1,28 @@
+{% extends 'core/basePeriodista.html' %}
+{% load static %}
+{% block content %}
+
+
+    <div class="p-5 bg-dark text-white text-center " id="noticia-datos">
+        <h1>Datos de la noticia</h1>
+        {% load crispy_forms_tags %}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form|crispy }}
+            {{ formset.management_form }}
+            {% for form in formset %}
+                {{ form|crispy }}
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Crear noticia</button>
+        </form>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+
+{% endblock %}

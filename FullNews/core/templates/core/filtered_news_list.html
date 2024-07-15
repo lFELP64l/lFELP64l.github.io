@@ -1,0 +1,54 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+
+
+    <div class="p-5 bg-dark text-white text-center">
+        <h1>{{ categoria }}</h1>
+    </div>
+    <div class="container">
+        <section id="capitulos">
+            <div class="row">
+                <h2 class="text-center my-5">NOTICIAS</h2>
+                {% for new in page_obj %}
+                    <div class="col-md-4 col-sm-4">
+                        <div class="card">
+                            {% if new.imagen1 %}
+                            <img class="card-img-top" src="{{ new.imagen1.url }}" alt="https://via.placeholder.com/300">
+                            {% endif %}
+                            <div class="card-body">
+                                <a href="{% url 'detalle_noticia' new.id %}"><h4>{{ new.titulo }}</h4></a>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <h2>no hay noticias</h2>
+                {% endfor %}
+            </div>
+        </section>
+
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+               {% if page_obj.has_previous %}
+               <li class="page-item"><a class="page-link" href="?page=1">&laquo; Primera</a></li>
+               <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a></li>
+               {% endif %}
+      
+               {% for num in page_obj.paginator.page_range %}
+               {% if page_obj.number == num %}
+               <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
+               {% elif num > page_obj.number|add:'-5' and num < page_obj.number|add:'5' %}
+               <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+               {% endif %}
+               {% endfor %}
+      
+               {% if page_obj.has_next %}
+               <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a></li>
+               <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a></li>
+               {% endif %}
+            </ul>
+         </nav>
+    </div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'core/baseAdmin.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="container">
+        <h2>Register</h2>
+        {% load crispy_forms_tags %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form | crispy }}
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+        <a href="{% url 'password_reset' %}"><p class="text-center">¿olvidaste tu contraseña?</p></a>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+{% endblock %}
